@@ -1,0 +1,47 @@
+# YouMind 一键部署 —— Docker Compose 编排
+# 一条命令启动： docker compose up -d --build
+# 访问地址：     http://localhost:${PORT:-8080}
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: "${DATABASE_URL:-sqlite:////app/data/youmind.db}"
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+      OPENROUTER_BASE_URL: "${OPENROUTER_BASE_URL:-https://openrouter.ai/api/v1}"
+      DEFAULT_MODEL: "${DEFAULT_MODEL:-openrouter/google/gemini-3-pro-preview}"
+      CORS_ALLOW_ORIGINS: "${CORS_ALLOW_ORIGINS:-*}"
+    volumes:
+      - youmind-data:/app/data
+    expose:
+      - "8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status==200 else 1)",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  youmind-data:

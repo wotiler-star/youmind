@@ -1,0 +1,39 @@
+# Fly.io 部署配置 —— YouMind 后端
+#
+# 一键部署后端：
+#   fly launch --copy-config --name youmind-backend --region sin
+#   fly deploy
+#
+# 前端部署（另起一个 app，指向本后端）：
+#   cd frontend
+#   fly launch --name youmind-frontend --region sin
+#   fly secrets set BACKEND_URL=https://youmind-backend.fly.dev
+#   fly deploy
+# （前端 Dockerfile 已支持用 BACKEND_URL 动态渲染 nginx 反代）
+
+app = "youmind-backend"
+primary_region = "sin"
+
+[build]
+  dockerfile = "backend/Dockerfile"
+
+[env]
+  DATABASE_URL = "sqlite:////app/data/youmind.db"
+  PORT = "8000"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/health"
+    interval = "15s"
+    timeout = "5s"
+
+[mounts]
+  source = "youmind_data"
+  destination = "/app/data"
