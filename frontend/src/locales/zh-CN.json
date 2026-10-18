@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "YouMind · AI 创作工作室 | 捕捉灵感，化为作品",
+    "description": "YouMind 是面向创作者与学习者的 AI 创作工作室：收集资料、调用 AI、产出作品，让灵感不再流失。"
+  },
+  "nav": {
+    "features": "功能",
+    "pricing": "定价",
+    "docs": "文档",
+    "app": "进入工作台",
+    "langLabel": "语言"
+  },
+  "landing": {
+    "badge": "AI 时代的纸和笔",
+    "heroTitle": "把每一个灵感，变成让自己满意的作品",
+    "heroSubtitle": "YouMind 帮你收集碎片、整理思路、调用顶级 AI 模型，在一个空间里完成从学习到创作的全流程。",
+    "ctaPrimary": "免费开始",
+    "ctaSecondary": "观看演示",
+    "featuresTitle": "为创作而生",
+    "features": [
+      { "title": "灵感捕捉", "desc": "文章、视频、播客、随想——一键收集，不再「收藏即遗忘」。" },
+      { "title": "AI 辅助理解", "desc": "随时调用 GPT、Gemini、Claude 等模型，抽丝剥茧、发现洞见。" },
+      { "title": "结构化创作", "desc": "在 Board 里管理项目与笔记，从草稿到成稿顺滑推进。" },
+      { "title": "万物化稿", "desc": "资料、笔记、对话彼此关联，让内容自然生长为作品。" }
+    ],
+    "howTitle": "三步开始",
+    "steps": [
+      { "title": "收集", "desc": "把看到的、想到的丢进 YouMind。" },
+      { "title": "整理", "desc": "AI 帮你归纳重点、建立联系。" },
+      { "title": "产出", "desc": "一句话生成草稿，迭代成满意的作品。" }
+    ]
+  },
+  "footer": {
+    "tagline": "YouMind · 让学习和创作不再割裂",
+    "copyright": "© 2026 YouMind. 保留所有权利。",
+    "languages": "选择语言"
+  },
+  "app": {
+    "newProject": "新建项目",
+    "untitled": "未命名项目",
+    "emptyHint": "还没有项目，点上方新建。",
+    "loading": "加载中…",
+    "titlePlaceholder": "项目标题",
+    "delete": "删除",
+    "aiAssistant": "✨ AI 助手",
+    "aiHint": "问 AI 任何关于当前项目的问题，它会流式回答。",
+    "editorPlaceholder": "在这里捕捉灵感、整理素材、撰写草稿…（自动保存）",
+    "askPlaceholder": "向 AI 提问…",
+    "send": "发送",
+    "selectHint": "从左侧选择一个项目，或新建一个开始创作。",
+    "viewSite": "查看官网"
+  }
+}

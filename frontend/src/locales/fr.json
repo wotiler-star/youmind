@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "YouMind · Studio de création IA | Captez l'inspiration, créez",
+    "description": "YouMind est un studio de création IA pour les créateurs et les apprenants : rassemblez des contenus, invoquez l'IA et produisez des œuvres, pour que l'inspiration ne s'évapore jamais."
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "docs": "Docs",
+    "app": "Ouvrir le studio",
+    "langLabel": "Langue"
+  },
+  "landing": {
+    "badge": "Le papier et le stylo de l'ère de l'IA",
+    "heroTitle": "Transformez chaque étincelle d'inspiration en une œuvre dont vous êtes fier",
+    "heroSubtitle": "YouMind capture vos bribes, organise vos idées et invoque les meilleurs modèles d'IA : tout le chemin de l'apprentissage à la création, en un seul endroit.",
+    "ctaPrimary": "Essayer gratuitement",
+    "ctaSecondary": "Voir la démo",
+    "featuresTitle": "Conçu pour créer",
+    "features": [
+      { "title": "Capture", "desc": "Articles, vidéos, podcasts, idées en l'air : rassemblez en un clic, fini « enregistrer et oublier »." },
+      { "title": "Compréhension par l'IA", "desc": "Invoquez GPT, Gemini, Claude à tout moment pour trouver le signal et révéler des idées." },
+      { "title": "Création structurée", "desc": "Gérez projets et notes dans un Board ; passez du brouillon à l'œuvre en douceur." },
+      { "title": "Tout devient brouillon", "desc": "Contenus, notes et conversations se relient pour faire naître l'œuvre naturellement." }
+    ],
+    "howTitle": "Démarrez en 3 étapes",
+    "steps": [
+      { "title": "Collecter", "desc": "Déposez dans YouMind ce que vous voyez et pensez." },
+      { "title": "Organiser", "desc": "L'IA résume l'essentiel et relie les points." },
+      { "title": "Produire", "desc": "Générez un brouillon en une ligne, puis affinez-le jusqu'à l'œuvre idéale." }
+    ]
+  },
+  "footer": {
+    "tagline": "YouMind · où apprendre et créer ne font plus qu'un",
+    "copyright": "© 2026 YouMind. Tous droits réservés.",
+    "languages": "Choisir la langue"
+  },
+  "app": {
+    "newProject": "Nouveau projet",
+    "untitled": "Projet sans titre",
+    "emptyHint": "Aucun projet pour l'instant — créez-en un ci-dessus.",
+    "loading": "Chargement…",
+    "titlePlaceholder": "Titre du projet",
+    "delete": "Supprimer",
+    "aiAssistant": "✨ Assistant IA",
+    "aiHint": "Posez à l'IA toutes vos questions sur le projet en cours, elle répond en flux.",
+    "editorPlaceholder": "Capturez vos idées, organisez vos contenus et rédigez ici… (enregistré auto)",
+    "askPlaceholder": "Interrogez l'IA…",
+    "send": "Envoyer",
+    "selectHint": "Choisissez un projet à gauche, ou créez-en un pour commencer.",
+    "viewSite": "Voir le site"
+  }
+}

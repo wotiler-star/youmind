@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "YouMind · Estudio de Creación con IA | Captura ideas, crea obras",
+    "description": "YouMind es un estudio de creación con IA para creadores y estudiantes: reúne materiales, invoca IA y produce obras, para que la inspiración nunca se pierda."
+  },
+  "nav": {
+    "features": "Funciones",
+    "pricing": "Precios",
+    "docs": "Documentación",
+    "app": "Abrir estudio",
+    "langLabel": "Idioma"
+  },
+  "landing": {
+    "badge": "El papel y el bolígrafo de la era de la IA",
+    "heroTitle": "Convierte cada chispa de inspiración en una obra de la que te sientas orgulloso",
+    "heroSubtitle": "YouMind te ayuda a capturar fragmentos, organizar ideas e invocar los mejores modelos de IA: completa todo el camino del aprendizaje a la creación en un solo lugar.",
+    "ctaPrimary": "Empieza gratis",
+    "ctaSecondary": "Ver demo",
+    "featuresTitle": "Hecho para crear",
+    "features": [
+      { "title": "Captura", "desc": "Artículos, vídeos, podcasts, pensamientos sueltos: recógelos con un toque, sin «guardar y olvidar»." },
+      { "title": "Comprensión con IA", "desc": "Invoca GPT, Gemini, Claude cuando quieras para hallar la señal y descubrir ideas." },
+      { "title": "Creación estructurada", "desc": "Gestiona proyectos y notas en un Board; avanza con fluidez del borrador a la obra." },
+      { "title": "Todo en borradores", "desc": "Materiales, notas y chats se conectan para que el contenido crezca como una obra natural." }
+    ],
+    "howTitle": "Empieza en 3 pasos",
+    "steps": [
+      { "title": "Recoge", "desc": "Suelta en YouMind lo que ves y piensas." },
+      { "title": "Organiza", "desc": "La IA resume los puntos clave y conecta los hilos." },
+      { "title": "Produce", "desc": "Genera un borrador en una línea y mejóralo hasta lograr tu obra." }
+    ]
+  },
+  "footer": {
+    "tagline": "YouMind · donde aprender y crear dejan de ser separados",
+    "copyright": "© 2026 YouMind. Todos los derechos reservados.",
+    "languages": "Elige idioma"
+  },
+  "app": {
+    "newProject": "Nuevo proyecto",
+    "untitled": "Proyecto sin título",
+    "emptyHint": "Aún no hay proyectos; crea uno arriba.",
+    "loading": "Cargando…",
+    "titlePlaceholder": "Título del proyecto",
+    "delete": "Eliminar",
+    "aiAssistant": "✨ Asistente IA",
+    "aiHint": "Pregunta a la IA lo que quieras sobre el proyecto y responderá en streaming.",
+    "editorPlaceholder": "Captura ideas, organiza materiales y redacta aquí… (guardado automático)",
+    "askPlaceholder": "Pregunta a la IA…",
+    "send": "Enviar",
+    "selectHint": "Elige un proyecto a la izquierda o crea uno para empezar.",
+    "viewSite": "Ver sitio"
+  }
+}

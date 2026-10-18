@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "YouMind · AI 制作スタジオ | ひらめきを、仕事に",
+    "description": "YouMind はクリエイターと学習者のための AI 制作スタジオ。資料を集め、AI を呼び出し、作品を生み出す——ひらめきを逃さない。"
+  },
+  "nav": {
+    "features": "機能",
+    "pricing": "料金",
+    "docs": "ドキュメント",
+    "app": "スタジオを開く",
+    "langLabel": "言語"
+  },
+  "landing": {
+    "badge": "AI 時代の紙とペン",
+    "heroTitle": "ひとつのひらめきを、誇れる作品に",
+    "heroSubtitle": "YouMind は断片を集め、思考を整理し、最高の AI モデルを呼び出します。学びから創造までをひとつの場所で。",
+    "ctaPrimary": "無料で始める",
+    "ctaSecondary": "デモを見る",
+    "featuresTitle": "制作のために作られた",
+    "features": [
+      { "title": "キャプチャ", "desc": "記事も動画もポッドキャストもひとつのタップで収集。「保存して忘却」をなくす。" },
+      { "title": "AI による理解", "desc": "GPT・Gemini・Claude をいつでも呼び出し、本質を見つけ洞察を得る。" },
+      { "title": "構造的な制作", "desc": "Board でプロジェクトとノートを管理し、草稿から完成へ。" },
+      { "title": "すべてが原稿に", "desc": "資料・ノート・対話がつながり、自然に作品が育つ。" }
+    ],
+    "howTitle": "3 ステップで開始",
+    "steps": [
+      { "title": "収集", "desc": "見たこと考えたことを YouMind へ。" },
+      { "title": "整理", "desc": "AI が要点をまとめ、点と点をつなぐ。" },
+      { "title": "公開", "desc": "一行で草稿を生成し、気に入る作品へ育てる。" }
+    ]
+  },
+  "footer": {
+    "tagline": "YouMind · 学びと創造を分けない",
+    "copyright": "© 2026 YouMind. All rights reserved.",
+    "languages": "言語を選ぶ"
+  },
+  "app": {
+    "newProject": "新規プロジェクト",
+    "untitled": "無題のプロジェクト",
+    "emptyHint": "まだプロジェクトはありません。上から作りましょう。",
+    "loading": "読み込み中…",
+    "titlePlaceholder": "プロジェクト名",
+    "delete": "削除",
+    "aiAssistant": "✨ AI アシスタント",
+    "aiHint": "現在のプロジェクトについて何でも聞くと、AI がストリームで答えます。",
+    "editorPlaceholder": "ここでひらめきを集め、素材を整理し、原稿を書く…（自動保存）",
+    "askPlaceholder": "AI に質問…",
+    "send": "送信",
+    "selectHint": "左からプロジェクトを選ぶか、新規作成して始めましょう。",
+    "viewSite": "サイトを見る"
+  }
+}

@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { createProject, deleteProject, listProjects, streamChat, updateProject, type Project } from './api'
+import { useI18n, LANGS } from './i18n'
 
 type ChatMsg = { role: 'user' | 'assistant'; content: string }
 
 export default function App() {
+  const { lang, setLang, t, landingHref } = useI18n()
   const [projects, setProjects] = useState<Project[]>([])
   const [current, setCurrent] = useState<Project | null>(null)
   const [title, setTitle] = useState('')
@@ -100,107 +103,130 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-full">
-      {/* 侧边栏：项目列表 */}
-      <aside className="flex w-64 flex-col border-r border-white/10 bg-[#15171d]">
-        <div className="flex items-center gap-2 px-4 py-4 text-lg font-semibold text-brand">
+    <div className="flex h-full flex-col">
+      {/* 顶栏：语言切换器 + 返回官网落地页（内链到各语言独立 URL） */}
+      <header className="flex items-center justify-between border-b border-white/10 bg-[#15171d] px-4 py-2">
+        <Link to={landingHref()} className="text-base font-semibold text-brand">
           🧠 YouMind
-        </div>
-        <button
-          onClick={onNew}
-          className="mx-3 mb-3 rounded-lg bg-brand px-3 py-2 text-sm font-medium text-white hover:opacity-90"
-        >
-          + 新建项目
-        </button>
-        <div className="flex-1 overflow-y-auto px-2">
-          {loading ? (
-            <p className="px-2 py-3 text-sm text-white/40">加载中…</p>
-          ) : projects.length === 0 ? (
-            <p className="px-2 py-3 text-sm text-white/40">还没有项目，点上方新建。</p>
+        </Link>
+        <nav className="flex items-center gap-2" aria-label={t('nav.langLabel')}>
+          <Link to={landingHref()} className="rounded-md px-2 py-1 text-xs text-white/60 hover:bg-white/5">
+            {t('app.viewSite')}
+          </Link>
+          {LANGS.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => setLang(l.code)}
+              className={`rounded-md px-2 py-1 text-xs ${
+                l.code === lang ? 'bg-brand text-white' : 'text-white/60 hover:bg-white/5'
+              }`}
+              aria-current={l.code === lang ? 'true' : undefined}
+            >
+              {l.label}
+            </button>
+          ))}
+        </nav>
+      </header>
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* 侧边栏：项目列表 */}
+        <aside className="flex w-64 flex-col border-r border-white/10 bg-[#15171d]">
+          <button
+            onClick={onNew}
+            className="mx-3 my-3 rounded-lg bg-brand px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+          >
+            + {t('app.newProject')}
+          </button>
+          <div className="flex-1 overflow-y-auto px-2">
+            {loading ? (
+              <p className="px-2 py-3 text-sm text-white/40">{t('app.loading')}</p>
+            ) : projects.length === 0 ? (
+              <p className="px-2 py-3 text-sm text-white/40">{t('app.emptyHint')}</p>
+            ) : (
+              projects.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => select(p)}
+                  className={`mb-1 block w-full truncate rounded-md px-2 py-2 text-left text-sm ${
+                    current?.id === p.id ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'
+                  }`}
+                >
+                  {p.title || t('app.untitled')}
+                </button>
+              ))
+            )}
+          </div>
+        </aside>
+
+        {/* 中间：编辑器 */}
+        <main className="flex flex-1 flex-col">
+          {current ? (
+            <>
+              <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+                <input
+                  value={title}
+                  onChange={(e) => onChangeTitle(e.target.value)}
+                  className="flex-1 bg-transparent text-xl font-semibold outline-none"
+                  placeholder={t('app.titlePlaceholder')}
+                />
+                <button
+                  onClick={() => onDelete(current.id)}
+                  className="rounded-md px-2 py-1 text-sm text-red-400 hover:bg-red-500/10"
+                >
+                  {t('app.delete')}
+                </button>
+              </div>
+              <textarea
+                value={content}
+                onChange={(e) => onChangeContent(e.target.value)}
+                placeholder={t('app.editorPlaceholder')}
+                className="flex-1 resize-none bg-transparent p-5 text-[15px] leading-relaxed outline-none"
+              />
+            </>
           ) : (
-            projects.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => select(p)}
-                className={`mb-1 block w-full truncate rounded-md px-2 py-2 text-left text-sm ${
-                  current?.id === p.id ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5'
+            <div className="flex flex-1 items-center justify-center text-white/40">
+              {t('app.selectHint')}
+            </div>
+          )}
+        </main>
+
+        {/* 右侧：AI 对话 */}
+        <aside className="flex w-96 flex-col border-l border-white/10 bg-[#15171d]">
+          <div className="px-4 py-3 text-sm font-semibold text-white/80">{t('app.aiAssistant')}</div>
+          <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-4">
+            {messages.length === 0 && (
+              <p className="text-sm text-white/40">{t('app.aiHint')}</p>
+            )}
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={`rounded-lg p-3 text-sm ${
+                  m.role === 'user' ? 'bg-brand/20 text-white' : 'bg-white/5 text-white/90'
                 }`}
               >
-                {p.title || '未命名项目'}
-              </button>
-            ))
-          )}
-        </div>
-      </aside>
-
-      {/* 中间：编辑器 */}
-      <main className="flex flex-1 flex-col">
-        {current ? (
-          <>
-            <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
-              <input
-                value={title}
-                onChange={(e) => onChangeTitle(e.target.value)}
-                className="flex-1 bg-transparent text-xl font-semibold outline-none"
-                placeholder="项目标题"
-              />
-              <button
-                onClick={() => onDelete(current.id)}
-                className="rounded-md px-2 py-1 text-sm text-red-400 hover:bg-red-500/10"
-              >
-                删除
-              </button>
-            </div>
-            <textarea
-              value={content}
-              onChange={(e) => onChangeContent(e.target.value)}
-              placeholder="在这里捕捉灵感、整理素材、撰写草稿…（自动保存）"
-              className="flex-1 resize-none bg-transparent p-5 text-[15px] leading-relaxed outline-none"
-            />
-          </>
-        ) : (
-          <div className="flex flex-1 items-center justify-center text-white/40">
-            从左侧选择一个项目，或新建一个开始创作。
+                {m.content || (streaming && i === messages.length - 1 ? '▍' : '')}
+              </div>
+            ))}
+            <div ref={chatEndRef} />
           </div>
-        )}
-      </main>
-
-      {/* 右侧：AI 对话 */}
-      <aside className="flex w-96 flex-col border-l border-white/10 bg-[#15171d]">
-        <div className="px-4 py-3 text-sm font-semibold text-white/80">✨ AI 助手</div>
-        <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-4">
-          {messages.length === 0 && (
-            <p className="text-sm text-white/40">问 AI 任何关于当前项目的问题，它会流式回答。</p>
-          )}
-          {messages.map((m, i) => (
-            <div
-              key={i}
-              className={`rounded-lg p-3 text-sm ${
-                m.role === 'user' ? 'bg-brand/20 text-white' : 'bg-white/5 text-white/90'
-              }`}
+          <div className="flex gap-2 border-t border-white/10 p-3">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && onSend()}
+              placeholder={t('app.askPlaceholder')}
+              className="flex-1 rounded-lg bg-white/5 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand"
+            />
+            <button
+              onClick={onSend}
+              disabled={streaming}
+              className="rounded-lg bg-brand px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
             >
-              {m.content || (streaming && i === messages.length - 1 ? '▍' : '')}
-            </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
-        <div className="flex gap-2 border-t border-white/10 p-3">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && onSend()}
-            placeholder="向 AI 提问…"
-            className="flex-1 rounded-lg bg-white/5 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-brand"
-          />
-          <button
-            onClick={onSend}
-            disabled={streaming}
-            className="rounded-lg bg-brand px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
-          >
-            发送
-          </button>
-        </div>
-      </aside>
+              {t('app.send')}
+            </button>
+          </div>
+        </aside>
+      </div>
     </div>
   )
 }

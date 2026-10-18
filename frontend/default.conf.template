@@ -12,8 +12,24 @@ server {
         return 200 'ok';
     }
 
-    # API 反向代理到后端（支持流式 /api/chat）
+    # 站点地图与 robots（由后端动态生成，含 hreflang 备用链接）
     # __BACKEND_URL__ 由 entrypoint.sh 根据环境变量渲染
+    location = /sitemap.xml {
+        proxy_pass __BACKEND_URL__;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location = /robots.txt {
+        proxy_pass __BACKEND_URL__;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # API 反向代理到后端（支持流式 /api/chat）
     location /api/ {
         proxy_pass __BACKEND_URL__;
         proxy_http_version 1.1;
@@ -26,7 +42,21 @@ server {
         chunked_transfer_encoding on;
     }
 
-    # 前端 SPA 路由回退
+    # 工作台 SPA（外壳为 /app.html，由前端 build 生成）
+    location = /app {
+        try_files /app.html =404;
+    }
+    location /app/ {
+        try_files $uri $uri/ /app.html;
+    }
+
+    # 多语言落地页子目录（/zh-CN/ /en/ /ja/ /es/ /fr/）
+    # 这些页面为构建期静态预渲染、可被搜索引擎独立抓取，并互为内链
+    location ~ ^/(zh-CN|en|ja|es|fr)(/|$) {
+        try_files $uri $uri/ /$1/index.html;
+    }
+
+    # 根路径：默认语言落地页（构建期写入 dist/index.html）
     location / {
         try_files $uri $uri/ /index.html;
     }

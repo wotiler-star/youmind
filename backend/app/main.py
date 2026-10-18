@@ -11,14 +11,19 @@
 """
 import os
 from contextlib import asynccontextmanager
+from urllib.parse import urljoin
 
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import PlainTextResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from app import ai, schemas
 from app.db import Project, get_db, init_db
+
+# 多语言清单（需与前端 src/locales + scripts/build-i18n-pages.mjs 保持一致）
+LANGS = ["zh-CN", "en", "ja", "es", "fr"]
+DEFAULT_LANG = "zh-CN"
 
 ALLOWED_ORIGINS = os.getenv("CORS_ALLOW_ORIGINS", "*").split(",")
 
@@ -43,6 +48,50 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "youmind-backend"}
+
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+def robots_txt():
+    # 站点地图由本服务动态生成；SITE_URL 用于绝对地址，缺省回退到请求 host
+    return (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /api/\n"
+        "Sitemap: /sitemap.xml\n"
+    )
+
+
+@app.get("/sitemap.xml")
+def sitemap(request: Request):
+    # 域名优先级：环境变量 SITE_URL > 请求 host（适配一键部署未知域名场景）
+    site_url = (os.getenv("SITE_URL") or str(request.base_url).rstrip("/")).rstrip("/")
+
+    url_entries = []
+    for code in LANGS:
+        loc = f"{site_url}/{code}/"
+        alternates = []
+        for alt in LANGS:
+            alternates.append(
+                f'    <xhtml:link rel="alternate" hreflang="{alt}" href="{site_url}/{alt}/" />'
+            )
+        alternates.append(
+            f'    <xhtml:link rel="alternate" hreflang="x-default" href="{site_url}/{DEFAULT_LANG}/" />'
+        )
+        url_entries.append(
+            "  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            + "\n".join(alternates)
+            + "\n  </url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        + "\n".join(url_entries)
+        + "\n</urlset>\n"
+    )
+    return Response(content=xml, media_type="application/xml")
 
 
 @app.get("/api/projects", response_model=list[schemas.ProjectOut])

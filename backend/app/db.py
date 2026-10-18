@@ -10,8 +10,21 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 DEFAULT_DB_PATH = "sqlite:///./data/youmind.db"
 DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_DB_PATH)
 
-# 可靠地解析 SQLite 文件路径，确保所在目录存在（兼容 3 斜杠与 4 斜杠写法）
-_file_path = urlparse(DATABASE_URL).path or "./youmind.db"
+
+def _sqlite_file_path(url: str) -> str:
+    """从 SQLAlchemy 风格的连接串中取出 SQLite 文件真实路径。
+
+    关键细节：sqlite:///./data/youmind.db 的「///」之后是相对路径 ./data/youmind.db，
+    不能用 urlparse().path 直接取（会得到 /./data/youmind.db 这种带前导斜杠、
+    被当成绝对路径的串，导致建错目录而真正连接时目录不存在、启动失败）。
+    """
+    if "///" not in url:
+        return os.path.normpath("./youmind.db")
+    path_part = url.split("///", 1)[1]
+    return os.path.normpath(path_part)
+
+
+_file_path = _sqlite_file_path(DATABASE_URL)
 _dir = os.path.dirname(_file_path)
 if _dir:
     os.makedirs(_dir, exist_ok=True)

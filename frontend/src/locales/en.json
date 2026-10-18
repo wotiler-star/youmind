@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "YouMind · AI Creation Studio | Capture Ideas, Ship Work",
+    "description": "YouMind is an AI creation studio for creators and learners: collect materials, summon AI, and ship work — so inspiration never slips away."
+  },
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "docs": "Docs",
+    "app": "Open Studio",
+    "langLabel": "Language"
+  },
+  "landing": {
+    "badge": "The pen and paper of the AI era",
+    "heroTitle": "Turn every spark of inspiration into work you're proud of",
+    "heroSubtitle": "YouMind helps you capture fragments, organize thoughts, and summon top AI models — completing the full journey from learning to creation in one space.",
+    "ctaPrimary": "Start free",
+    "ctaSecondary": "Watch demo",
+    "featuresTitle": "Built for creation",
+    "features": [
+      { "title": "Capture", "desc": "Articles, videos, podcasts, stray thoughts — collect in one tap, never “save and forget”." },
+      { "title": "AI-assisted understanding", "desc": "Summon GPT, Gemini, Claude anytime to find the signal and uncover insights." },
+      { "title": "Structured creation", "desc": "Manage projects and notes in a Board; glide from draft to finished piece." },
+      { "title": "Everything into drafts", "desc": "Materials, notes, and chats connect so content grows into work naturally." }
+    ],
+    "howTitle": "Get started in 3 steps",
+    "steps": [
+      { "title": "Collect", "desc": "Drop what you see and think into YouMind." },
+      { "title": "Organize", "desc": "AI summarizes the key points and connects the dots." },
+      { "title": "Ship", "desc": "Generate a draft in one line, then iterate into something you love." }
+    ]
+  },
+  "footer": {
+    "tagline": "YouMind · where learning and creation stop being separate",
+    "copyright": "© 2026 YouMind. All rights reserved.",
+    "languages": "Choose language"
+  },
+  "app": {
+    "newProject": "New project",
+    "untitled": "Untitled project",
+    "emptyHint": "No projects yet — create one above.",
+    "loading": "Loading…",
+    "titlePlaceholder": "Project title",
+    "delete": "Delete",
+    "aiAssistant": "✨ AI Assistant",
+    "aiHint": "Ask the AI anything about the current project and it replies in a stream.",
+    "editorPlaceholder": "Capture ideas, organize materials, draft your work here… (auto-saved)",
+    "askPlaceholder": "Ask the AI…",
+    "send": "Send",
+    "selectHint": "Pick a project on the left, or create one to start creating.",
+    "viewSite": "View site"
+  }
+}

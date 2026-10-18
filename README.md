@@ -50,3 +50,35 @@ cd frontend && npm install && npm run dev   # http://localhost:5173
 - ✅ 项目（Board）的创建 / 编辑 / 删除 / 搜索，内容自动保存
 - ✅ AI 助手流式对话（未配置 Key 时走回显模式，功能链路完整）
 - ✅ 生产级容器化、健康检查、数据持久化、环境变量驱动的反代
+- ✅ **多语言 SEO**：每个语言独立可抓取 URL + hreflang + 内链 + 站点地图
+
+## 多语言 SEO（独立 URL / hreflang / 内链 / 站点地图）
+
+每种语言拥有**独立、可被搜索引擎抓取**的 URL（子目录策略），并配套完整的 SEO 信号：
+
+| 语言 | 独立 URL | hreflang |
+| --- | --- | --- |
+| 简体中文 | `/zh-CN/` | `zh-CN` |
+| English | `/en/` | `en` |
+| 日本語 | `/ja/` | `ja` |
+| Español | `/es/` | `es` |
+| Français | `/fr/` | `fr` |
+
+实现要点：
+- **可抓取的独立 URL**：构建期由 `frontend/scripts/build-i18n-pages.mjs` 预渲染出 `dist/<lang>/index.html`，HTML 内直接包含**完整译文**（hero / 功能 / 步骤 / 页脚），无需执行 JS 即可被抓取。
+- **hreflang 备用链接**：每个落地页 `<head>` 含全部语言的 `<link rel="alternate" hreflang="…">` 与 `x-default`，指向 `/zh-CN/`。
+- **canonical + Open Graph + JSON-LD**：每个页面有独立 canonical、OG 标签与结构化数据（WebSite / SoftwareApplication，含 `availableLanguage`）。
+- **内链（语言切换器）**：每个落地页都互相链接到其它语言的独立 URL，形成内部链接网络；工作台 `/app` 顶栏也内链回各语言落地页。
+- **站点地图**：后端 `GET /sitemap.xml` 动态生成，列出全部语言 URL 并以 `<xhtml:link hreflang>` 互相关联（绝对地址取 `SITE_URL` 环境变量，缺省回退到请求 host）。
+- **robots.txt**：`GET /robots.txt` 放行全站并声明 `Sitemap: /sitemap.xml`。
+- **nginx**：`/sitemap.xml`、`/robots.txt` 反代到后端；`/<lang>/` 提供预渲染落地页；`/app` 提供 SPA 工作台外壳 `app.html`。
+
+> 生产部署前请设置站点域名：前端构建 `SITE_URL=https://yourdomain.com npm run build`（落地页的绝对 hreflang/canonical 由此生成）；后端运行时 `SITE_URL=https://yourdomain.com`（站点地图绝对地址）。不设置时回退到占位域名/请求 host。
+
+本地查看效果：
+
+```bash
+cd frontend && SITE_URL=https://localhost npm run build
+# 预渲染产物：dist/zh-CN/index.html、dist/en/index.html … dist/app.html
+python3 -m http.server 4173 -d dist   # 访问 /zh-CN/ /en/ 等
+```
