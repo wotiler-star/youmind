@@ -1,6 +1,6 @@
 // 多语言静态预渲染脚本
 // 为每种语言生成「可被搜索引擎抓取」的独立落地页：
-//   dist/<lang>/index.html  —— 完整译文 + hreflang 备用链接 + canonical + JSON-LD + 内链(语言切换器)
+//   dist/<lang>/index.html  —— 完整译文 + hreflang 备用链接 + canonical + JSON-LD + 内链(语言切换器/页脚/导航)
 //   dist/index.html         —— 默认语言(zh-CN)落地页，使根路径 / 也可抓取
 //   dist/app.html           —— 复制自 Vite 构建的 SPA 外壳，供 /app 工作台使用
 //
@@ -63,38 +63,118 @@ function langSwitcher(code) {
   return `<nav class="ym-langs" aria-label="Languages">${items}</nav>`
 }
 
-// 完整 JSON-LD：WebSite + SoftwareApplication，含 availableLanguage 与每页 inLanguage
-function jsonLd(code) {
+// 完整 JSON-LD：WebSite + SoftwareApplication + FAQPage，含 availableLanguage 与每页 inLanguage
+function jsonLd(code, L) {
   const available = LANGS.map((l) => l.hreflang)
-  const data = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE_URL}/#website`,
-        name: 'YouMind',
-        url: `${SITE_URL}/${code}/`,
-        inLanguage: code,
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: `${SITE_URL}/${code}/?q={search_term_string}`,
-          'query-input': 'required name=search_term_string',
-        },
+  const graph = [
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'YouMind',
+      url: `${SITE_URL}/${code}/`,
+      inLanguage: code,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${SITE_URL}/${code}/?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
       },
-      {
-        '@type': 'SoftwareApplication',
-        name: 'YouMind · AI Creation Studio',
-        operatingSystem: 'Web',
-        applicationCategory: 'ProductivityApplication',
-        inLanguage: code,
-        availableLanguage: available,
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        url: `${SITE_URL}/${code}/`,
-      },
-    ],
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'YouMind · AI Creation Studio',
+      operatingSystem: 'Web',
+      applicationCategory: 'ProductivityApplication',
+      inLanguage: code,
+      availableLanguage: available,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      url: `${SITE_URL}/${code}/`,
+    },
+  ]
+  if (Array.isArray(L.faq) && L.faq.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      inLanguage: code,
+      mainEntity: L.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    })
   }
-  return JSON.stringify(data)
+  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })
 }
+
+const CSS = `
+  :root { --brand: ${BRAND}; --bg: #0f1115; --fg: #e6e7ea; --muted: rgba(230,231,234,.62); --card: #15171d; --border: rgba(255,255,255,.08); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  .ym-wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  header.ym-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; flex-wrap: wrap; }
+  .ym-logo { font-size: 20px; font-weight: 700; color: var(--brand); }
+  .ym-nav { display: flex; align-items: center; gap: 18px; font-size: 14px; color: var(--muted); }
+  .ym-nav a:hover { color: var(--fg); }
+  .ym-langs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ym-lang { padding: 6px 12px; border-radius: 999px; font-size: 13px; color: var(--muted); border: 1px solid var(--border); }
+  .ym-lang:hover { color: var(--fg); border-color: var(--brand); }
+  .ym-lang--active { color: #fff; background: var(--brand); border-color: var(--brand); }
+  .ym-hero { text-align: center; padding: 64px 0 36px; }
+  .ym-badge { display: inline-block; padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+  .ym-hero h1 { font-size: clamp(28px, 5vw, 50px); line-height: 1.15; margin: 0 0 18px; }
+  .ym-hero p { font-size: 18px; color: var(--muted); max-width: 760px; margin: 0 auto 30px; }
+  .ym-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .ym-btn { padding: 12px 26px; border-radius: 12px; font-size: 15px; font-weight: 600; display: inline-block; }
+  .ym-btn--primary { background: var(--brand); color: #fff; }
+  .ym-btn--primary:hover { opacity: .92; }
+  .ym-btn--ghost { border: 1px solid var(--border); color: var(--fg); }
+  .ym-btn--sm { padding: 8px 16px; font-size: 14px; }
+  .ym-section { padding: 56px 0; border-top: 1px solid var(--border); }
+  .ym-section h2 { text-align: center; font-size: 30px; margin: 0 0 36px; }
+  .ym-section > .ym-sub { text-align: center; color: var(--muted); max-width: 640px; margin: -20px auto 36px; }
+  .ym-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .ym-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  .ym-card-no { color: var(--brand); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+  .ym-card h3 { margin: 0 0 8px; font-size: 19px; }
+  .ym-card p { margin: 0; color: var(--muted); }
+  .ym-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .ym-step { display: flex; gap: 14px; align-items: flex-start; }
+  .ym-step-no { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; display: grid; place-items: center; }
+  .ym-step h4 { margin: 4px 0 6px; font-size: 17px; }
+  .ym-step p { margin: 0; color: var(--muted); }
+  .ym-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .ym-tool { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .ym-tool h3 { margin: 0 0 6px; font-size: 17px; color: var(--brand); }
+  .ym-tool p { margin: 0; color: var(--muted); font-size: 14px; }
+  .ym-price { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; max-width: 760px; margin: 0 auto; }
+  .ym-tier { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; display: flex; flex-direction: column; }
+  .ym-tier--hot { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
+  .ym-tier h3 { margin: 0 0 4px; font-size: 20px; }
+  .ym-tier .ym-amt { font-size: 32px; font-weight: 700; margin: 8px 0; }
+  .ym-tier .ym-amt small { font-size: 14px; color: var(--muted); font-weight: 400; }
+  .ym-tier ul { list-style: none; padding: 0; margin: 12px 0 20px; color: var(--muted); font-size: 14px; }
+  .ym-tier li { padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .ym-tier .ym-btn { text-align: center; margin-top: auto; }
+  .ym-faq { max-width: 760px; margin: 0 auto; }
+  .ym-faq details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 4px 18px; margin-bottom: 12px; }
+  .ym-faq summary { cursor: pointer; padding: 14px 0; font-weight: 600; }
+  .ym-faq p { margin: 0 0 14px; color: var(--muted); }
+  .ym-cta-final { text-align: center; padding: 64px 0; border-top: 1px solid var(--border); }
+  .ym-cta-final h2 { font-size: 30px; margin: 0 0 14px; }
+  .ym-cta-final p { color: var(--muted); max-width: 620px; margin: 0 auto 26px; }
+  footer.ym-foot { border-top: 1px solid var(--border); padding: 40px 0 30px; }
+  .ym-foot-cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px; }
+  .ym-foot-cols .ym-tag { color: var(--muted); font-size: 14px; max-width: 240px; }
+  .ym-foot h4 { font-size: 14px; margin: 0 0 12px; color: var(--fg); }
+  .ym-foot li { list-style: none; margin: 0 0 8px; }
+  .ym-foot a { color: var(--muted); font-size: 14px; }
+  .ym-foot a:hover { color: var(--fg); }
+  .ym-foot-legal { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 28px; color: var(--muted); font-size: 13px; }
+  .ym-foot-legal .ym-langs { justify-content: flex-end; }
+  @media (max-width: 760px) {
+    .ym-grid, .ym-steps, .ym-price, .ym-foot-cols { grid-template-columns: 1fr; }
+    .ym-nav { display: none; }
+  }
+`
 
 function render(lang) {
   const t = loadLocale(lang.code)
@@ -103,7 +183,7 @@ function render(lang) {
   const L = t.landing
   const f = t.footer
 
-  const features = L.features
+  const capabilities = L.capabilities
     .map(
       (x, i) =>
         `<article class="ym-card"><div class="ym-card-no">0${i + 1}</div><h3>${esc(
@@ -118,6 +198,46 @@ function render(lang) {
         `<li class="ym-step"><span class="ym-step-no">${i + 1}</span><div><h4>${esc(
           x.title,
         )}</h4><p>${esc(x.desc)}</p></div></li>`,
+    )
+    .join('')
+
+  const usecases = L.usecases
+    .map(
+      (x) =>
+        `<article class="ym-card"><h3>${esc(x.title)}</h3><p>${esc(x.desc)}</p></article>`,
+    )
+    .join('')
+
+  const tools = L.tools
+    .map((x) => `<div class="ym-tool"><h3>${esc(x.title)}</h3><p>${esc(x.desc)}</p></div>`)
+    .join('')
+
+  const pricing = L.pricing
+    .map(
+      (p) =>
+        `<div class="ym-tier${p.highlight ? ' ym-tier--hot' : ''}"><h3>${esc(
+          p.name,
+        )}</h3><div class="ym-amt">${esc(p.price)}<small>${esc(p.period)}</small></div><ul>${p.features
+          .map((ft) => `<li>${esc(ft)}</li>`)
+          .join('')}</ul><a class="ym-btn ${
+          p.highlight ? 'ym-btn--primary' : 'ym-btn--ghost'
+        }" href="/app">${esc(p.cta)}</a></div>`,
+    )
+    .join('')
+
+  const faq = L.faq
+    .map(
+      (x) =>
+        `<details><summary>${esc(x.q)}</summary><p>${esc(x.a)}</p></details>`,
+    )
+    .join('')
+
+  const footCols = (f.columns || [])
+    .map(
+      (c) =>
+        `<div><h4>${esc(c.title)}</h4><ul>${c.links
+          .map((lk) => `<li><a href="${esc(lk.href)}">${esc(lk.label)}</a></li>`)
+          .join('')}</ul></div>`,
     )
     .join('')
 
@@ -138,48 +258,18 @@ function render(lang) {
   <meta name="twitter:title" content="${esc(m.title)}" />
   <meta name="twitter:description" content="${esc(m.description)}" />
 ${headLinks(lang.code)}
-  <style>
-    :root { --brand: ${BRAND}; --bg: #0f1115; --fg: #e6e7ea; --muted: rgba(230,231,234,.6); --card: #15171d; --border: rgba(255,255,255,.08); }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--fg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; }
-    a { color: inherit; text-decoration: none; }
-    .ym-wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-    header.ym-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
-    .ym-logo { font-size: 20px; font-weight: 700; color: var(--brand); }
-    .ym-langs { display: flex; gap: 6px; flex-wrap: wrap; }
-    .ym-lang { padding: 6px 12px; border-radius: 999px; font-size: 13px; color: var(--muted); border: 1px solid var(--border); }
-    .ym-lang:hover { color: var(--fg); border-color: var(--brand); }
-    .ym-lang--active { color: #fff; background: var(--brand); border-color: var(--brand); }
-    .ym-hero { text-align: center; padding: 70px 0 40px; }
-    .ym-badge { display: inline-block; padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: 13px; color: var(--muted); margin-bottom: 22px; }
-    .ym-hero h1 { font-size: clamp(30px, 5vw, 52px); line-height: 1.15; margin: 0 0 18px; }
-    .ym-hero h1 b { color: var(--brand); }
-    .ym-hero p { font-size: 18px; color: var(--muted); max-width: 720px; margin: 0 auto 30px; }
-    .ym-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .ym-btn { padding: 12px 26px; border-radius: 12px; font-size: 15px; font-weight: 600; }
-    .ym-btn--primary { background: var(--brand); color: #fff; }
-    .ym-btn--ghost { border: 1px solid var(--border); color: var(--fg); }
-    .ym-section { padding: 60px 0; }
-    .ym-section h2 { text-align: center; font-size: 30px; margin: 0 0 36px; }
-    .ym-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-    .ym-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-    .ym-card-no { color: var(--brand); font-weight: 700; font-size: 14px; margin-bottom: 8px; }
-    .ym-card h3 { margin: 0 0 8px; font-size: 19px; }
-    .ym-card p { margin: 0; color: var(--muted); }
-    .ym-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .ym-step { display: flex; gap: 14px; align-items: flex-start; }
-    .ym-step-no { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--brand); color: #fff; font-weight: 700; display: grid; place-items: center; }
-    .ym-step h4 { margin: 4px 0 6px; font-size: 17px; }
-    .ym-step p { margin: 0; color: var(--muted); }
-    footer.ym-foot { border-top: 1px solid var(--border); padding: 30px 0; text-align: center; color: var(--muted); font-size: 14px; }
-    footer.ym-foot .ym-langs { justify-content: center; margin-top: 12px; }
-    @media (max-width: 760px) { .ym-grid, .ym-steps { grid-template-columns: 1fr; } }
-  </style>
+  <style>${CSS}</style>
 </head>
 <body>
   <div class="ym-wrap">
     <header class="ym-head">
       <div class="ym-logo">🧠 YouMind</div>
+      <nav class="ym-nav">
+        <a href="#capabilities">${esc(nav.features)}</a>
+        <a href="#tools">${esc(nav.tools)}</a>
+        <a href="#pricing">${esc(nav.pricing)}</a>
+        <a class="ym-btn ym-btn--primary ym-btn--sm" href="/app">${esc(nav.app)}</a>
+      </nav>
       ${langSwitcher(lang.code)}
     </header>
 
@@ -189,13 +279,13 @@ ${headLinks(lang.code)}
       <p>${esc(L.heroSubtitle)}</p>
       <div class="ym-cta">
         <a class="ym-btn ym-btn--primary" href="/app">${esc(L.ctaPrimary)}</a>
-        <a class="ym-btn ym-btn--ghost" href="/${lang.code}/#features">${esc(L.ctaSecondary)}</a>
+        <a class="ym-btn ym-btn--ghost" href="#capabilities">${esc(L.ctaSecondary)}</a>
       </div>
     </section>
 
-    <section class="ym-section" id="features">
-      <h2>${esc(L.featuresTitle)}</h2>
-      <div class="ym-grid">${features}</div>
+    <section class="ym-section" id="capabilities">
+      <h2>${esc(L.capabilitiesTitle)}</h2>
+      <div class="ym-grid">${capabilities}</div>
     </section>
 
     <section class="ym-section" id="how">
@@ -203,14 +293,50 @@ ${headLinks(lang.code)}
       <ul class="ym-steps">${steps}</ul>
     </section>
 
+    <section class="ym-section" id="usecases">
+      <h2>${esc(L.usecasesTitle)}</h2>
+      <div class="ym-grid">${usecases}</div>
+    </section>
+
+    <section class="ym-section" id="tools">
+      <h2>${esc(L.toolsTitle)}</h2>
+      <div class="ym-tools">${tools}</div>
+    </section>
+
+    <section class="ym-section" id="pricing">
+      <h2>${esc(L.pricingTitle)}</h2>
+      <div class="ym-price">${pricing}</div>
+    </section>
+
+    <section class="ym-section" id="faq">
+      <h2>${esc(L.faqTitle)}</h2>
+      <div class="ym-faq">${faq}</div>
+    </section>
+
+    <section class="ym-cta-final">
+      <h2>${esc(L.ctaFinalTitle)}</h2>
+      <p>${esc(L.ctaFinalText)}</p>
+      <div class="ym-cta">
+        <a class="ym-btn ym-btn--primary" href="/app">${esc(L.ctaPrimary)}</a>
+      </div>
+    </section>
+
     <footer class="ym-foot">
-      <div>${esc(f.tagline)}</div>
-      <div>${esc(f.copyright)}</div>
-      <div style="margin-top:10px;color:var(--muted);font-size:13px;">${esc(f.languages)}</div>
-      ${langSwitcher(lang.code)}
+      <div class="ym-foot-cols">
+        <div>
+          <div class="ym-logo" style="margin-bottom:10px;">🧠 YouMind</div>
+          <p class="ym-tag">${esc(f.tagline)}</p>
+        </div>
+        ${footCols}
+      </div>
+      <div class="ym-foot-legal">
+        <span>${esc(f.copyright)}</span>
+        <span style="color:var(--muted);font-size:13px;">${esc(f.languages)}</span>
+        ${langSwitcher(lang.code)}
+      </div>
     </footer>
   </div>
-  <script type="application/ld+json">${jsonLd(lang.code)}</script>
+  <script type="application/ld+json">${jsonLd(lang.code, L)}</script>
 </body>
 </html>`
 }

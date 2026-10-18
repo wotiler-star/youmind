@@ -1,10 +1,11 @@
 {
   "meta": {
     "title": "YouMind · AI Creation Studio | Capture Ideas, Ship Work",
-    "description": "YouMind is an AI creation studio for creators and learners: collect materials, summon AI, and ship work — so inspiration never slips away."
+    "description": "YouMind is an AI creation studio for creators and learners: capture inspiration from web, YouTube, podcasts and Office docs, let AI find the logic, and ship work — so learning and creation stop being separate."
   },
   "nav": {
     "features": "Features",
+    "tools": "Tools",
     "pricing": "Pricing",
     "docs": "Docs",
     "app": "Open Studio",
@@ -12,28 +13,63 @@
   },
   "landing": {
     "badge": "The pen and paper of the AI era",
-    "heroTitle": "Turn every spark of inspiration into work you're proud of",
-    "heroSubtitle": "YouMind helps you capture fragments, organize thoughts, and summon top AI models — completing the full journey from learning to creation in one space.",
+    "heroTitle": "Break the boundary between learning and creation — turn scattered materials into work you're proud of",
+    "heroSubtitle": "YouMind is an AI workspace that fuses knowledge management with content creation. Capture from PDFs, web pages, videos, podcasts and Office docs in one place; AI helps you find the logic and deep insight, closing the loop from idea to finished work.",
     "ctaPrimary": "Start free",
     "ctaSecondary": "Watch demo",
-    "featuresTitle": "Built for creation",
-    "features": [
-      { "title": "Capture", "desc": "Articles, videos, podcasts, stray thoughts — collect in one tap, never “save and forget”." },
-      { "title": "AI-assisted understanding", "desc": "Summon GPT, Gemini, Claude anytime to find the signal and uncover insights." },
-      { "title": "Structured creation", "desc": "Manage projects and notes in a Board; glide from draft to finished piece." },
-      { "title": "Everything into drafts", "desc": "Materials, notes, and chats connect so content grows into work naturally." }
+    "capabilitiesTitle": "Core capabilities",
+    "capabilities": [
+      { "title": "Capture everything, everywhere", "desc": "With a browser extension and mobile app, save web pages, YouTube videos, podcast audio and Office docs anytime — building your private inspiration library." },
+      { "title": "Personalized AI logic", "desc": "Unlike templated Q&A, YouMind learns your reading habits and point of view, producing content that truly matches your own insight style." },
+      { "title": "Immersive creation flow", "desc": "AI-generated reports turn into fully editable documents in one click — review, rewrite and refine in the same space, no more tool-hopping." },
+      { "title": "Structured Board management", "desc": "Organize massive materials on an intuitive kanban, quickly finding the logical architecture among thousands of sources." }
     ],
     "howTitle": "Get started in 3 steps",
     "steps": [
-      { "title": "Collect", "desc": "Drop what you see and think into YouMind." },
-      { "title": "Organize", "desc": "AI summarizes the key points and connects the dots." },
-      { "title": "Ship", "desc": "Generate a draft in one line, then iterate into something you love." }
-    ]
+      { "title": "Collect", "desc": "Drop what you see and think into YouMind; save web pages, videos and podcasts in one tap." },
+      { "title": "Organize", "desc": "AI summarizes the key points and connects the dots into reusable knowledge." },
+      { "title": "Ship", "desc": "Generate a draft in one line, then iterate in the same space into work you love." }
+    ],
+    "usecasesTitle": "Who uses YouMind",
+    "usecases": [
+      { "title": "Creators: from fragments to narrative", "desc": "Auto-link scattered notes and references, surface hidden themes, and quickly build original stories with depth and support." },
+      { "title": "Researchers: efficient synthesis", "desc": "Facing dense literature, YouMind rapidly synthesizes complex material into clear reports and briefs, tuned to each audience's tone." },
+      { "title": "Lifelong learners: deep absorption", "desc": "Turn long videos or dense text into approachable examples, notes and visual sketches — making learning interactive thinking." }
+    ],
+    "toolsTitle": "Find tools by task",
+    "tools": [
+      { "title": "Writing", "desc": "Outlines, first drafts, rewrites and polish — from a single sentence to a long essay." },
+      { "title": "Social media", "desc": "Turn materials into viral copy for Xiaohongshu, Weibo, X and more." },
+      { "title": "Learning", "desc": "Summarize courses, break down concepts, generate study cards and mind maps." },
+      { "title": "Images", "desc": "Ideate illustrations, covers and infographic drafts for articles and social." },
+      { "title": "Video", "desc": "Extract video highlights, generate scripts and short-video copy." },
+      { "title": "Presentation", "desc": "Turn materials into a clear, well-structured slide outline in one click." },
+      { "title": "Job hunting", "desc": "Polish your résumé, rehearse interviews, write a cover letter that lands." }
+    ],
+    "pricingTitle": "Simple, transparent pricing",
+    "pricing": [
+      { "name": "Free", "price": "$0", "period": "/ forever", "features": ["Private library & basic capture", "AI chat & draft generation", "Single project", "Community support"], "cta": "Start free", "highlight": false },
+      { "name": "Pro", "price": "$20", "period": "/ mo", "features": ["Unlimited projects & Boards", "Personalized AI logic", "Immersive creation flow", "Full multi-source capture", "Priority support"], "cta": "Upgrade to Pro", "highlight": true }
+    ],
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      { "q": "What sources does YouMind support?", "a": "Web pages, YouTube videos, podcasts, PDFs and Office docs — captured in one click via the browser extension or mobile app." },
+      { "q": "Can AI-generated content be edited?", "a": "Yes. Every AI-generated report turns into a fully editable document you can review, rewrite and refine in the same space." },
+      { "q": "Is my data private?", "a": "Your inspiration library is private by default and visible only to you; you can export or delete your materials and works anytime." },
+      { "q": "Which languages are supported?", "a": "YouMind supports 13 languages including Chinese and English; this site also ships independent pages per language for easy access." }
+    ],
+    "ctaFinalTitle": "Start now — turn inspiration into work",
+    "ctaFinalText": "Whether it's an article, a talk, or a set of study notes, YouMind walks every step with you, from spark to finished piece."
   },
   "footer": {
     "tagline": "YouMind · where learning and creation stop being separate",
     "copyright": "© 2026 YouMind. All rights reserved.",
-    "languages": "Choose language"
+    "languages": "Choose language",
+    "columns": [
+      { "title": "Product", "links": [ { "label": "Features", "href": "#capabilities" }, { "label": "Tools", "href": "#tools" }, { "label": "Pricing", "href": "#pricing" }, { "label": "Open Studio", "href": "/app" } ] },
+      { "title": "Resources", "links": [ { "label": "Docs", "href": "#" }, { "label": "Changelog", "href": "#" }, { "label": "Help Center", "href": "#" } ] },
+      { "title": "Company", "links": [ { "label": "About", "href": "#" }, { "label": "Privacy", "href": "#" }, { "label": "Terms", "href": "#" } ] }
+    ]
   },
   "app": {
     "newProject": "New project",

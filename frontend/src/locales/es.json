@@ -1,10 +1,11 @@
 {
   "meta": {
     "title": "YouMind · Estudio de Creación con IA | Captura ideas, crea obras",
-    "description": "YouMind es un estudio de creación con IA para creadores y estudiantes: reúne materiales, invoca IA y produce obras, para que la inspiración nunca se pierda."
+    "description": "YouMind es un estudio de creación con IA para creadores y estudiantes: captura inspiración de la web, YouTube, podcasts y documentos Office, deja que la IA ordene la lógica y crea obras."
   },
   "nav": {
     "features": "Funciones",
+    "tools": "Herramientas",
     "pricing": "Precios",
     "docs": "Documentación",
     "app": "Abrir estudio",
@@ -12,28 +13,63 @@
   },
   "landing": {
     "badge": "El papel y el bolígrafo de la era de la IA",
-    "heroTitle": "Convierte cada chispa de inspiración en una obra de la que te sientas orgulloso",
-    "heroSubtitle": "YouMind te ayuda a capturar fragmentos, organizar ideas e invocar los mejores modelos de IA: completa todo el camino del aprendizaje a la creación en un solo lugar.",
+    "heroTitle": "Rompe la frontera entre aprender y crear: convierte materiales dispersos en obras de las que te sientas orgulloso",
+    "heroSubtitle": "YouMind es un espacio de trabajo con IA que fusiona la gestión del conocimiento con la creación de contenido. Captura desde PDF, páginas web, vídeos, podcasts y Office en un solo lugar; la IA te ayuda a encontrar la lógica y la insight profunda, cerrando el ciclo de la idea a la obra.",
     "ctaPrimary": "Empieza gratis",
     "ctaSecondary": "Ver demo",
-    "featuresTitle": "Hecho para crear",
-    "features": [
-      { "title": "Captura", "desc": "Artículos, vídeos, podcasts, pensamientos sueltos: recógelos con un toque, sin «guardar y olvidar»." },
-      { "title": "Comprensión con IA", "desc": "Invoca GPT, Gemini, Claude cuando quieras para hallar la señal y descubrir ideas." },
-      { "title": "Creación estructurada", "desc": "Gestiona proyectos y notas en un Board; avanza con fluidez del borrador a la obra." },
-      { "title": "Todo en borradores", "desc": "Materiales, notas y chats se conectan para que el contenido crezca como una obra natural." }
+    "capabilitiesTitle": "Capacidades centrales",
+    "capabilities": [
+      { "title": "Captura total de materiales", "desc": "Con la extensión de navegador y la app móvil, guarda páginas web, vídeos de YouTube, audio de podcasts y documentos Office cuando quieras: tu biblioteca privada de inspiración." },
+      { "title": "IA con lógica personalizada", "desc": "A diferencia de las respuestas de plantilla, YouMind aprende tus hábitos de lectura y tu punto de vista, produciendo contenido que encaja con tu estilo propio." },
+      { "title": "Flujo de creación inmersivo", "desc": "Los informes generados por la IA se convierten en documentos totalmente editables en un clic: revisa, reescribe y perfecciona en el mismo espacio." },
+      { "title": "Gestión estructurada en Board", "desc": "Organiza enormes cantidades de materiales en un tablero intuitivo y encuentra la arquitectura lógica entre miles de fuentes." }
     ],
     "howTitle": "Empieza en 3 pasos",
     "steps": [
-      { "title": "Recoge", "desc": "Suelta en YouMind lo que ves y piensas." },
-      { "title": "Organiza", "desc": "La IA resume los puntos clave y conecta los hilos." },
-      { "title": "Produce", "desc": "Genera un borrador en una línea y mejóralo hasta lograr tu obra." }
-    ]
+      { "title": "Recoge", "desc": "Suelta en YouMind lo que ves y piensas; guarda webs, vídeos y podcasts con un toque." },
+      { "title": "Organiza", "desc": "La IA resume los puntos clave y conecta los hilos en conocimiento reutilizable." },
+      { "title": "Produce", "desc": "Genera un borrador en una línea y mejóralo en el mismo espacio hasta tu obra." }
+    ],
+    "usecasesTitle": "Quién usa YouMind",
+    "usecases": [
+      { "title": "Creadores: de fragmento a narrativa", "desc": "Conecta automáticamente notas y referencias dispersas, descubre temas ocultos y construye historias originales con profundidad." },
+      { "title": "Investigadores: síntesis eficiente", "desc": "Ante literatura densa, YouMind sintetiza rápido material complejo en informes y resúmenes claros, ajustando el tono a cada audiencia." },
+      { "title": "Aprendices de por vida: absorción profunda", "desc": "Convierte vídeos largos o textos complejos en ejemplos, notas y bocetos visuales comprensibles: el aprendizaje se vuelve pensamiento interactivo." }
+    ],
+    "toolsTitle": "Encuentra herramientas por tarea",
+    "tools": [
+      { "title": "Escritura", "desc": "Esquemas, primeros borradores, reescrituras y pulido: de una frase a un ensayo largo." },
+      { "title": "Redes sociales", "desc": "Convierte materiales en copys virales para Xiaohongshu, Weibo, X y más." },
+      { "title": "Aprendizaje", "desc": "Resume cursos, desglosa conceptos, genera tarjetas de estudio y mapas mentales." },
+      { "title": "Imágenes", "desc": "Idea ilustraciones, portadas y borradores de infografías para artículos y redes." },
+      { "title": "Vídeo", "desc": "Extrae highlights, genera guiones y copys para vídeos cortos." },
+      { "title": "Presentación", "desc": "Convierte materiales en un esquema de diapositivas claro y estructurado en un clic." },
+      { "title": "Búsqueda de empleo", "desc": "Pule tu currículum, ensaya entrevistas y escribe una carta que convenza." }
+    ],
+    "pricingTitle": "Precios simples y transparentes",
+    "pricing": [
+      { "name": "Gratis", "price": "$0", "period": " / para siempre", "features": ["Biblioteca privada y captura básica", "Chat IA y generación de borradores", "Un proyecto", "Soporte de la comunidad"], "cta": "Empieza gratis", "highlight": false },
+      { "name": "Pro", "price": "$20", "period": " / mes", "features": ["Proyectos y Boards ilimitados", "IA con lógica personalizada", "Flujo de creación inmersivo", "Captura total multi-fuente", "Soporte prioritario"], "cta": "Subir a Pro", "highlight": true }
+    ],
+    "faqTitle": "Preguntas frecuentes",
+    "faq": [
+      { "q": "¿Qué fuentes admite YouMind?", "a": "Páginas web, vídeos de YouTube, podcasts, PDF y documentos Office, capturados en un clic con la extensión o la app móvil." },
+      { "q": "¿Se puede editar el contenido generado por IA?", "a": "Sí. Cada informe generado se convierte en un documento totalmente editable que puedes revisar y perfeccionar en el mismo espacio." },
+      { "q": "¿Son privados mis datos?", "a": "Tu biblioteca de inspiración es privada por defecto y solo tú la ves; puedes exportar o borrar tus materiales y obras cuando quieras." },
+      { "q": "¿Qué idiomas se admiten?", "a": "YouMind admite 13 idiomas, incluido el chino y el inglés; este sitio también ofrece páginas independientes por idioma." }
+    ],
+    "ctaFinalTitle": "Empieza ya: convierte la inspiración en obra",
+    "ctaFinalText": "Ya sea un artículo, una charla o unas notas de estudio, YouMind te acompaña en cada paso, de la chispa a la obra terminada."
   },
   "footer": {
     "tagline": "YouMind · donde aprender y crear dejan de ser separados",
     "copyright": "© 2026 YouMind. Todos los derechos reservados.",
-    "languages": "Elige idioma"
+    "languages": "Elige idioma",
+    "columns": [
+      { "title": "Producto", "links": [ { "label": "Funciones", "href": "#capabilities" }, { "label": "Herramientas", "href": "#tools" }, { "label": "Precios", "href": "#pricing" }, { "label": "Abrir estudio", "href": "/app" } ] },
+      { "title": "Recursos", "links": [ { "label": "Docs", "href": "#" }, { "label": "Novedades", "href": "#" }, { "label": "Centro de ayuda", "href": "#" } ] },
+      { "title": "Empresa", "links": [ { "label": "Acerca de", "href": "#" }, { "label": "Privacidad", "href": "#" }, { "label": "Términos", "href": "#" } ] }
+    ]
   },
   "app": {
     "newProject": "Nuevo proyecto",
