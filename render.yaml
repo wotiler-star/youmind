@@ -7,6 +7,11 @@ services:
     dockerfilePath: ./backend/Dockerfile
     plan: free
     healthCheckPath: /health
+    # 持久化磁盘：否则 Render 临时文件系统会在重启/休眠后清空数据库
+    disk:
+      name: youmind-data
+      mountPath: /app/data
+      sizeGB: 1
     envVars:
       - key: DATABASE_URL
         value: sqlite:////app/data/youmind.db

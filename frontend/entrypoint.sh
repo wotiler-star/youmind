@@ -5,6 +5,8 @@
 set -e
 
 BACKEND_URL="${BACKEND_URL:-http://backend:8000}"
+# 去除尾部斜杠，避免 nginx proxy_pass 吞掉 /api 前缀导致全部 API 404
+BACKEND_URL="${BACKEND_URL%/}"
 
 sed "s|__BACKEND_URL__|${BACKEND_URL}|g" \
     /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf

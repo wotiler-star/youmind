@@ -1,9 +1,11 @@
 # ---------- 构建阶段 ----------
 FROM node:20-alpine AS build
+# 默认使用官方 npm registry；如需加速可传入 --build-arg NPM_REGISTRY=<镜像地址>
+ARG NPM_REGISTRY=https://registry.npmjs.org/
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --registry https://mirrors.tencent.com/npm/
+RUN npm ci --registry ${NPM_REGISTRY}
 
 COPY . .
 RUN npm run build

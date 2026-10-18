@@ -3,6 +3,8 @@ server {
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
+    # 允许较大的请求体（项目内容、长文本），避免 413
+    client_max_body_size 10m;
 
     # 健康检查端点（供 docker / 云平台探针使用）
     location = /healthz {

@@ -1,6 +1,7 @@
 """数据库引擎、会话与数据模型 (SQLAlchemy 2.0 + SQLite)。"""
 import os
 import datetime
+from urllib.parse import urlparse
 
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -9,8 +10,8 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 DEFAULT_DB_PATH = "sqlite:///./data/youmind.db"
 DATABASE_URL = os.getenv("DATABASE_URL", DEFAULT_DB_PATH)
 
-# 确保 SQLite 文件所在目录存在
-_file_path = DATABASE_URL.replace("sqlite:///", "", 1)
+# 可靠地解析 SQLite 文件路径，确保所在目录存在（兼容 3 斜杠与 4 斜杠写法）
+_file_path = urlparse(DATABASE_URL).path or "./youmind.db"
 _dir = os.path.dirname(_file_path)
 if _dir:
     os.makedirs(_dir, exist_ok=True)

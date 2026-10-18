@@ -43,6 +43,10 @@ async def stream_chat(message: str, history=None):
             headers=headers,
             json=payload,
         ) as resp:
+            if resp.status_code != 200:
+                err = await resp.aread()
+                yield f"[AI 服务返回错误 {resp.status_code}：{err.decode('utf-8', 'ignore')[:300]}]"
+                return
             async for line in resp.aiter_lines():
                 if not line or not line.startswith("data:"):
                     continue

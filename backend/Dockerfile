@@ -6,8 +6,10 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1
 
+# 默认使用官方 PyPI；如需加速可传入 --build-arg PIP_INDEX=<镜像地址>
+ARG PIP_INDEX=https://pypi.org/simple
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.tencent.com/pypi/simple
+RUN pip install --no-cache-dir -r requirements.txt -i ${PIP_INDEX}
 
 COPY . .
 
